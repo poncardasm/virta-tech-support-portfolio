@@ -1,8 +1,5 @@
 export default function NoteItem({ note }) {
   const isInternal = note.type === 'internal';
-  const borderColor = isInternal ? 'border-yellow-400' : 'border-green-500';
-  const bgColor = isInternal ? 'bg-yellow-50' : 'bg-green-50';
-  const label = isInternal ? 'Internal note' : 'Customer reply';
   const time = new Date(note.created_at).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -13,11 +10,28 @@ export default function NoteItem({ note }) {
   });
 
   return (
-    <div className={`border-l-4 ${borderColor} ${bgColor} pl-3 pr-4 py-2.5 rounded-r-md space-y-1`}>
-      <p className="text-xs text-muted-foreground font-medium">
-        {label} · {date} {time}
-      </p>
-      <p className="text-sm whitespace-pre-wrap">{note.body}</p>
+    <div
+      className={
+        isInternal
+          ? 'border-l-2 border-l-[oklch(0.80_0.17_55)] bg-[oklch(0.80_0.17_55_/_0.06)] pl-3 pr-4 py-2.5 rounded-r-md'
+          : 'border-l-2 border-l-[oklch(0.72_0.16_160)] bg-[oklch(0.72_0.16_160_/_0.06)] pl-3 pr-4 py-2.5 rounded-r-md'
+      }
+    >
+      <div className="flex items-center gap-2 mb-1.5">
+        <span
+          className={
+            isInternal
+              ? 'text-[10px] font-mono font-medium text-[oklch(0.80_0.17_55)] uppercase tracking-wider'
+              : 'text-[10px] font-mono font-medium text-[oklch(0.72_0.16_160)] uppercase tracking-wider'
+          }
+        >
+          {isInternal ? 'Internal' : 'Customer reply'}
+        </span>
+        <span className="text-[10px] font-mono text-muted-foreground/60">
+          {date} · {time}
+        </span>
+      </div>
+      <p className="text-sm text-foreground/85 whitespace-pre-wrap leading-relaxed">{note.body}</p>
     </div>
   );
 }

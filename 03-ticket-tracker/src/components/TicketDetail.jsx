@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,16 +14,23 @@ import {
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import NoteItem from './NoteItem';
 import { getTicket } from '@/storage';
-import { SaveIcon, PlusIcon } from 'lucide-react';
+import { SaveIcon, PlusIcon, AlertTriangleIcon } from 'lucide-react';
 
 const STATUSES = ['open', 'in-progress', 'escalated', 'resolved'];
 const PRIORITIES = ['low', 'medium', 'high'];
 
-const STATUS_VARIANT = {
-  open: 'secondary',
-  'in-progress': 'default',
-  escalated: 'destructive',
-  resolved: 'outline',
+const STATUS_STYLE = {
+  open:         'text-[var(--status-open-color)]      bg-[var(--status-open-bg)]      border border-[var(--status-open-border)]',
+  'in-progress':'text-[var(--status-progress-color)]  bg-[var(--status-progress-bg)]  border border-[var(--status-progress-border)]',
+  escalated:    'text-[var(--status-escalated-color)] bg-[var(--status-escalated-bg)] border border-[var(--status-escalated-border)]',
+  resolved:     'text-[var(--status-resolved-color)]  bg-[var(--status-resolved-bg)]  border border-[var(--status-resolved-border)]',
+};
+
+const CATEGORY_LABEL = {
+  billing: 'Billing',
+  technical: 'Technical',
+  device: 'Device',
+  account: 'Account',
 };
 
 export default function TicketDetail({ ticket, onUpdate, onAddNote }) {
@@ -63,49 +69,64 @@ export default function TicketDetail({ ticket, onUpdate, onAddNote }) {
     (status === 'escalated' && escalationReason !== (ticket.escalation_reason || ''));
 
   return (
-    <div className="p-6 max-w-2xl space-y-6">
-      {/* Header */}
-      <div>
-        <div className="flex items-start justify-between gap-4">
-          <h2 className="text-lg font-semibold leading-snug">{ticket.title}</h2>
-          <Badge variant={STATUS_VARIANT[ticket.status]} className="shrink-0 mt-0.5">
+    <div className="p-6 max-w-2xl">
+      {/* ── Ticket header ── */}
+      <div className="mb-6">
+        <div className="flex items-start justify-between gap-4 mb-3">
+          <h2 className="text-base font-semibold leading-snug">{ticket.title}</h2>
+          <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-medium leading-none shrink-0 mt-0.5 ${STATUS_STYLE[ticket.status]}`}>
             {ticket.status}
-          </Badge>
+          </span>
         </div>
-        <div className="flex gap-2 mt-2 flex-wrap">
-          <Badge variant="outline">{ticket.priority}</Badge>
-          <Badge variant="secondary">{ticket.category}</Badge>
-          <Badge variant="outline">{ticket.customer_type}</Badge>
+
+        <div className="flex items-center gap-2 flex-wrap mb-3">
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/60 text-muted-foreground uppercase tracking-wider">
+            {ticket.priority} priority
+          </span>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/60 text-muted-foreground uppercase tracking-wider">
+            {CATEGORY_LABEL[ticket.category]}
+          </span>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 uppercase tracking-wider">
+            {ticket.customer_type}
+          </span>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          Opened {new Date(ticket.created_at).toLocaleString()} ·{' '}
-          Updated {new Date(ticket.updated_at).toLocaleString()}
-        </p>
+
+        <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground/60">
+          <span>Opened {new Date(ticket.created_at).toLocaleString()}</span>
+          <span>·</span>
+          <span>Updated {new Date(ticket.updated_at).toLocaleString()}</span>
+        </div>
+
         {ticket.escalated_at && (
-          <p className="text-xs text-destructive mt-1">
-            Escalated {new Date(ticket.escalated_at).toLocaleString()}
-            {ticket.escalation_reason && ` · ${ticket.escalation_reason}`}
-          </p>
+          <div className="mt-2 flex items-start gap-1.5 text-[10px] font-mono text-[var(--status-escalated-color)]">
+            <AlertTriangleIcon className="size-3 mt-0.5 shrink-0" />
+            <span>
+              Escalated {new Date(ticket.escalated_at).toLocaleString()}
+              {ticket.escalation_reason && ` — ${ticket.escalation_reason}`}
+            </span>
+          </div>
         )}
       </div>
 
-      <Separator />
+      <Separator className="mb-6" />
 
-      {/* Update ticket */}
-      <div className="space-y-4">
-        <p className="text-sm font-medium">Update ticket</p>
+      {/* ── Update ticket ── */}
+      <div className="mb-6">
+        <p className="text-xs font-medium text-foreground/70 mb-3 uppercase tracking-wide font-mono">
+          Update ticket
+        </p>
         <FieldGroup>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <Field>
-              <FieldLabel>Status</FieldLabel>
+              <FieldLabel className="text-xs">Status</FieldLabel>
               <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger>
+                <SelectTrigger className="cursor-pointer text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {STATUSES.map((s) => (
-                      <SelectItem key={s} value={s}>
+                      <SelectItem key={s} value={s} className="cursor-pointer text-sm">
                         {s}
                       </SelectItem>
                     ))}
@@ -114,15 +135,15 @@ export default function TicketDetail({ ticket, onUpdate, onAddNote }) {
               </Select>
             </Field>
             <Field>
-              <FieldLabel>Priority</FieldLabel>
+              <FieldLabel className="text-xs">Priority</FieldLabel>
               <Select value={priority} onValueChange={setPriority}>
-                <SelectTrigger>
+                <SelectTrigger className="cursor-pointer text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {PRIORITIES.map((p) => (
-                      <SelectItem key={p} value={p}>
+                      <SelectItem key={p} value={p} className="cursor-pointer text-sm">
                         {p}
                       </SelectItem>
                     ))}
@@ -134,29 +155,44 @@ export default function TicketDetail({ ticket, onUpdate, onAddNote }) {
 
           {status === 'escalated' && (
             <Field>
-              <FieldLabel>Escalation reason</FieldLabel>
+              <FieldLabel className="text-xs">Escalation reason</FieldLabel>
               <Input
                 value={escalationReason}
                 onChange={(e) => setEscalationReason(e.target.value)}
-                placeholder="Required for escalation"
+                placeholder="Describe why this ticket is being escalated"
+                className="text-sm"
               />
             </Field>
           )}
         </FieldGroup>
 
-        <Button onClick={handleSave} disabled={!isDirty} size="sm">
-          <SaveIcon data-icon="inline-start" />
-          Save changes
-        </Button>
+        <div className="mt-3">
+          <Button
+            onClick={handleSave}
+            disabled={!isDirty}
+            size="sm"
+            className="cursor-pointer h-8 text-xs gap-1.5"
+          >
+            <SaveIcon className="size-3" />
+            Save changes
+          </Button>
+        </div>
       </div>
 
-      <Separator />
+      <Separator className="mb-6" />
 
-      {/* Notes thread */}
-      <div className="space-y-3">
-        <p className="text-sm font-medium">Notes & Replies</p>
+      {/* ── Notes thread ── */}
+      <div className="mb-6">
+        <p className="text-xs font-medium text-foreground/70 mb-3 uppercase tracking-wide font-mono">
+          Notes & Replies
+          {notes.length > 0 && (
+            <span className="ml-2 text-muted-foreground/50 normal-case tracking-normal font-normal">
+              ({notes.length})
+            </span>
+          )}
+        </p>
         {notes.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No notes yet.</p>
+          <p className="text-xs text-muted-foreground/50 font-mono">No notes yet.</p>
         ) : (
           <div className="flex flex-col gap-2">
             {notes.map((note) => (
@@ -166,44 +202,55 @@ export default function TicketDetail({ ticket, onUpdate, onAddNote }) {
         )}
       </div>
 
-      <Separator />
+      <Separator className="mb-6" />
 
-      {/* Add note */}
-      <div className="space-y-3">
-        <p className="text-sm font-medium">Add note</p>
+      {/* ── Add note ── */}
+      <div>
+        <p className="text-xs font-medium text-foreground/70 mb-3 uppercase tracking-wide font-mono">
+          Add note
+        </p>
         <FieldGroup>
           <Field>
-            <FieldLabel>Note type</FieldLabel>
+            <FieldLabel className="text-xs">Type</FieldLabel>
             <Select value={noteType} onValueChange={setNoteType}>
-              <SelectTrigger>
+              <SelectTrigger className="cursor-pointer text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="internal">Internal note</SelectItem>
-                  <SelectItem value="reply">Customer reply</SelectItem>
+                  <SelectItem value="internal" className="cursor-pointer text-sm">Internal note</SelectItem>
+                  <SelectItem value="reply" className="cursor-pointer text-sm">Customer reply</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
           </Field>
           <Field>
-            <FieldLabel>Message</FieldLabel>
+            <FieldLabel className="text-xs">Message</FieldLabel>
             <Textarea
               value={noteBody}
               onChange={(e) => setNoteBody(e.target.value)}
               placeholder={
                 noteType === 'internal'
-                  ? 'Add diagnosis notes, L2 context, or investigation findings...'
-                  : 'Write a response to send to the customer...'
+                  ? 'Diagnosis notes, L2 context, investigation findings...'
+                  : 'Response to send to the customer...'
               }
               rows={3}
+              className="text-sm resize-none"
             />
           </Field>
         </FieldGroup>
-        <Button onClick={handleAddNote} disabled={!noteBody.trim()} size="sm">
-          <PlusIcon data-icon="inline-start" />
-          Add note
-        </Button>
+        <div className="mt-3">
+          <Button
+            onClick={handleAddNote}
+            disabled={!noteBody.trim()}
+            size="sm"
+            variant="outline"
+            className="cursor-pointer h-8 text-xs gap-1.5"
+          >
+            <PlusIcon className="size-3" />
+            Add note
+          </Button>
+        </div>
       </div>
     </div>
   );

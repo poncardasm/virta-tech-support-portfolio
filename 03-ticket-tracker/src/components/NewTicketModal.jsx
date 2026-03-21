@@ -44,35 +44,37 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>New ticket</DialogTitle>
-          <DialogDescription>
-            Create a support ticket for a customer issue.
+          <DialogTitle className="text-sm font-semibold">New support ticket</DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground font-mono">
+            Log a new issue to the support queue
           </DialogDescription>
         </DialogHeader>
+
         <form onSubmit={handleSubmit}>
-          <FieldGroup className="py-2">
+          <FieldGroup className="py-1">
             <Field>
-              <FieldLabel>Title</FieldLabel>
+              <FieldLabel className="text-xs">Issue title</FieldLabel>
               <Input
                 value={fields.title}
                 onChange={(e) => set('title', e.target.value)}
-                placeholder="Describe the issue"
+                placeholder="Briefly describe the issue"
                 autoFocus
                 required
+                className="text-sm"
               />
             </Field>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <Field>
-                <FieldLabel>Priority</FieldLabel>
+                <FieldLabel className="text-xs">Priority</FieldLabel>
                 <Select value={fields.priority} onValueChange={(v) => set('priority', v)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="cursor-pointer text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       {['low', 'medium', 'high'].map((p) => (
-                        <SelectItem key={p} value={p}>
+                        <SelectItem key={p} value={p} className="cursor-pointer text-sm capitalize">
                           {p}
                         </SelectItem>
                       ))}
@@ -81,15 +83,15 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
                 </Select>
               </Field>
               <Field>
-                <FieldLabel>Category</FieldLabel>
+                <FieldLabel className="text-xs">Category</FieldLabel>
                 <Select value={fields.category} onValueChange={(v) => set('category', v)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="cursor-pointer text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       {['billing', 'technical', 'device', 'account'].map((c) => (
-                        <SelectItem key={c} value={c}>
+                        <SelectItem key={c} value={c} className="cursor-pointer text-sm capitalize">
                           {c}
                         </SelectItem>
                       ))}
@@ -100,30 +102,37 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
             </div>
 
             <Field>
-              <FieldLabel>Customer type</FieldLabel>
+              <FieldLabel className="text-xs">Customer type</FieldLabel>
               <Select value={fields.customer_type} onValueChange={(v) => set('customer_type', v)}>
-                <SelectTrigger>
+                <SelectTrigger className="cursor-pointer text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="B2B">B2B — Fleet / Business</SelectItem>
-                    <SelectItem value="B2C">B2C — Individual</SelectItem>
+                    <SelectItem value="B2B" className="cursor-pointer text-sm">B2B — Fleet / Business</SelectItem>
+                    <SelectItem value="B2C" className="cursor-pointer text-sm">B2C — Individual</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </Field>
           </FieldGroup>
 
-          <DialogFooter className="mt-4">
+          <DialogFooter className="mt-4 gap-2">
             <Button
               type="button"
-              variant="outline"
+              variant="ghost"
+              size="sm"
+              className="cursor-pointer text-xs"
               onClick={() => onOpenChange(false)}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={!fields.title.trim()}>
+            <Button
+              type="submit"
+              size="sm"
+              className="cursor-pointer text-xs"
+              disabled={!fields.title.trim()}
+            >
               Create ticket
             </Button>
           </DialogFooter>

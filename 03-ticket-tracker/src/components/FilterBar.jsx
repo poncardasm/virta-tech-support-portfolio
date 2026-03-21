@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
 
@@ -17,29 +16,28 @@ const CUSTOMER_TYPES = ['B2B', 'B2C'];
 
 function FilterSelect({ label, value, options, onChange }) {
   return (
-    <Field>
-      <FieldLabel className="text-xs">{label}</FieldLabel>
+    <div className="space-y-1">
+      <p className="text-[10px] font-mono text-muted-foreground/70 uppercase tracking-widest">{label}</p>
       <Select value={value || 'all'} onValueChange={(v) => onChange(v === 'all' ? undefined : v)}>
-        <SelectTrigger className="h-8 text-xs">
+        <SelectTrigger className="h-7 text-xs cursor-pointer bg-input/50 border-border/60">
           <SelectValue placeholder="All" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all" className="cursor-pointer text-xs">All</SelectItem>
             {options.map((o) => (
-              <SelectItem key={o} value={o}>
+              <SelectItem key={o} value={o} className="cursor-pointer text-xs">
                 {o}
               </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
       </Select>
-    </Field>
+    </div>
   );
 }
 
-const hasActiveFilters = (filters) =>
-  Object.values(filters).some(Boolean);
+const hasActiveFilters = (filters) => Object.values(filters).some(Boolean);
 
 export default function FilterBar({ filters, onChange }) {
   function set(key, value) {
@@ -47,24 +45,24 @@ export default function FilterBar({ filters, onChange }) {
   }
 
   return (
-    <div className="p-3 border-b shrink-0">
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+    <div className="p-3 border-b border-border shrink-0">
+      <div className="flex items-center justify-between mb-2.5">
+        <span className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-widest">
           Filters
-        </p>
+        </span>
         {hasActiveFilters(filters) && (
           <Button
             variant="ghost"
             size="sm"
-            className="h-6 px-2 text-xs text-muted-foreground"
+            className="h-5 px-1.5 text-[10px] font-mono cursor-pointer text-muted-foreground hover:text-foreground gap-1"
             onClick={() => onChange({})}
           >
-            <XIcon data-icon="inline-start" />
+            <XIcon className="size-2.5" />
             Clear
           </Button>
         )}
       </div>
-      <FieldGroup className="gap-2">
+      <div className="flex flex-col gap-2">
         <FilterSelect
           label="Status"
           value={filters.status}
@@ -84,12 +82,12 @@ export default function FilterBar({ filters, onChange }) {
           onChange={(v) => set('category', v)}
         />
         <FilterSelect
-          label="Customer type"
+          label="Customer"
           value={filters.customer_type}
           options={CUSTOMER_TYPES}
           onChange={(v) => set('customer_type', v)}
         />
-      </FieldGroup>
+      </div>
     </div>
   );
 }
