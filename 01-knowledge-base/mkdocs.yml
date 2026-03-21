@@ -1,0 +1,26 @@
+site_name: EV Charging Support Knowledge Base
+site_description: Troubleshooting articles for EV charging support teams
+site_url: ""  # fill in once GitHub Pages URL is known
+
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: green
+  features:
+    - navigation.sections
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: README.md
+  - Articles:
+      - Charger Not Responding: charger-not-responding.md
+      - Payment Declined But Session Started: payment-declined-session-started.md
+      - Charger Shows Available But Offline: charger-shows-available-but-offline.md
+      - RFID Card Not Recognized: rfid-card-not-recognized.md
+      - Session Ends Unexpectedly: session-ends-unexpectedly.md
+      - Slow Charging Speed: slow-charging-speed.md
+  - Changelog: changelog.md
+
+docs_dir: .
