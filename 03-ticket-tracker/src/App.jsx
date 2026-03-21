@@ -4,8 +4,7 @@ import TicketList from './components/TicketList';
 import TicketDetail from './components/TicketDetail';
 import NewTicketModal from './components/NewTicketModal';
 import { Button } from './components/ui/button';
-import { Separator } from './components/ui/separator';
-import { PlusIcon, ZapIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 
 export default function App() {
   const [tickets, setTickets] = useState([]);
@@ -36,83 +35,86 @@ export default function App() {
     setTickets(getTickets());
   }
 
-  const filtered = tickets.filter((t) => {
-    return (
-      (!filters.status || t.status === filters.status) &&
-      (!filters.priority || t.priority === filters.priority) &&
-      (!filters.category || t.category === filters.category) &&
-      (!filters.customer_type || t.customer_type === filters.customer_type)
-    );
-  });
+  const filtered = tickets.filter((t) =>
+    (!filters.status || t.status === filters.status) &&
+    (!filters.priority || t.priority === filters.priority) &&
+    (!filters.category || t.category === filters.category) &&
+    (!filters.customer_type || t.customer_type === filters.customer_type)
+  );
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
-      {/* Top accent bar */}
-      <div className="h-0.5 w-full bg-primary shrink-0" />
-
-      <header className="flex items-center justify-between px-5 py-2.5 border-b border-border shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="size-7 rounded border border-primary/40 bg-primary/10 flex items-center justify-center shrink-0">
-            <ZapIcon className="size-3.5 text-primary" />
+    <div className="flex h-screen bg-background text-foreground overflow-hidden">
+      {/* ── Sidebar ── */}
+      <aside className="w-64 border-r border-border flex flex-col shrink-0 bg-sidebar">
+        {/* Brand */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-sidebar-border">
+          <div className="flex items-center gap-2">
+            <div className="size-5 rounded-md bg-primary/90 flex items-center justify-center">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M5 1L8.5 9H1.5L5 1Z" fill="white" fillOpacity="0.9" />
+              </svg>
+            </div>
+            <span className="text-[13px] font-semibold tracking-tight">EV Support</span>
           </div>
-          <div>
-            <h1 className="text-sm font-semibold tracking-tight leading-none">EV Support Queue</h1>
-            <p className="text-[10px] font-mono text-muted-foreground leading-tight mt-0.5 tracking-widest uppercase">
-              Virta Technical Support
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
-            {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
-          </span>
           <Button
             onClick={() => setShowNewModal(true)}
-            size="sm"
-            className="cursor-pointer h-7 text-xs px-3 gap-1.5"
+            size="icon"
+            variant="ghost"
+            className="size-6 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
+            title="New Ticket"
           >
-            <PlusIcon className="size-3" />
-            New Ticket
+            <PlusIcon className="size-3.5" />
           </Button>
         </div>
-      </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="w-72 border-r border-border flex flex-col overflow-hidden shrink-0 bg-sidebar">
-          <TicketList
-            tickets={filtered}
-            selectedId={selectedId}
-            filters={filters}
-            onFilterChange={setFilters}
-            onSelect={setSelectedId}
+        {/* Nav label */}
+        <div className="px-4 pt-4 pb-1.5">
+          <span className="text-[11px] font-medium text-muted-foreground/60 uppercase tracking-wider">
+            Queue
+          </span>
+        </div>
+
+        {/* Ticket list fills sidebar */}
+        <TicketList
+          tickets={filtered}
+          selectedId={selectedId}
+          filters={filters}
+          onFilterChange={setFilters}
+          onSelect={setSelectedId}
+        />
+      </aside>
+
+      {/* ── Main panel ── */}
+      <main className="flex-1 overflow-y-auto bg-background">
+        {selectedTicket ? (
+          <TicketDetail
+            ticket={selectedTicket}
+            onUpdate={handleUpdate}
+            onAddNote={handleAddNote}
           />
-        </aside>
-
-        <Separator orientation="vertical" />
-
-        <main className="flex-1 overflow-y-auto bg-background">
-          {selectedTicket ? (
-            <TicketDetail
-              ticket={selectedTicket}
-              onUpdate={handleUpdate}
-              onAddNote={handleAddNote}
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-4 select-none">
-              <div className="size-12 rounded-xl border border-border flex items-center justify-center">
-                <ZapIcon className="size-5 text-muted-foreground/40" />
-              </div>
-              <div className="text-center space-y-1">
-                <p className="text-sm text-muted-foreground">No ticket selected</p>
-                <p className="text-[10px] font-mono text-muted-foreground/50 tracking-widest uppercase">
-                  Select from queue or create new
-                </p>
-              </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full gap-3 select-none">
+            <div className="size-10 rounded-xl border border-border/60 flex items-center justify-center text-muted-foreground/30">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </div>
-          )}
-        </main>
-      </div>
+            <div className="text-center">
+              <p className="text-sm font-medium text-foreground/40">No ticket selected</p>
+              <p className="text-xs text-muted-foreground/40 mt-0.5">
+                Pick one from the queue or{' '}
+                <button
+                  onClick={() => setShowNewModal(true)}
+                  className="text-primary/70 hover:text-primary underline underline-offset-2 transition-colors cursor-pointer"
+                >
+                  create a new one
+                </button>
+              </p>
+            </div>
+          </div>
+        )}
+      </main>
 
       <NewTicketModal
         open={showNewModal}

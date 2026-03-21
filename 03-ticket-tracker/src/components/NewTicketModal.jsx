@@ -42,87 +42,85 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-sm font-semibold">New support ticket</DialogTitle>
-          <DialogDescription className="text-xs text-muted-foreground font-mono">
-            Log a new issue to the support queue
+      <DialogContent className="sm:max-w-[420px] gap-0 p-0 overflow-hidden">
+        <DialogHeader className="px-5 pt-5 pb-4 border-b border-border/60">
+          <DialogTitle className="text-[14px] font-semibold">New ticket</DialogTitle>
+          <DialogDescription className="text-[12px] text-muted-foreground mt-0.5">
+            Log a new issue to the support queue.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit}>
-          <FieldGroup className="py-1">
-            <Field>
-              <FieldLabel className="text-xs">Issue title</FieldLabel>
-              <Input
-                value={fields.title}
-                onChange={(e) => set('title', e.target.value)}
-                placeholder="Briefly describe the issue"
-                autoFocus
-                required
-                className="text-sm"
-              />
-            </Field>
-
-            <div className="grid grid-cols-2 gap-3">
+          <div className="px-5 py-4">
+            <FieldGroup>
               <Field>
-                <FieldLabel className="text-xs">Priority</FieldLabel>
-                <Select value={fields.priority} onValueChange={(v) => set('priority', v)}>
-                  <SelectTrigger className="cursor-pointer text-sm">
+                <FieldLabel className="text-[11px] font-medium text-muted-foreground">Title</FieldLabel>
+                <Input
+                  value={fields.title}
+                  onChange={(e) => set('title', e.target.value)}
+                  placeholder="Briefly describe the issue"
+                  autoFocus
+                  required
+                  className="text-sm h-8"
+                />
+              </Field>
+
+              <div className="grid grid-cols-2 gap-3">
+                <Field>
+                  <FieldLabel className="text-[11px] font-medium text-muted-foreground">Priority</FieldLabel>
+                  <Select value={fields.priority} onValueChange={(v) => set('priority', v)}>
+                    <SelectTrigger className="cursor-pointer text-sm h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {['low', 'medium', 'high'].map((p) => (
+                          <SelectItem key={p} value={p} className="cursor-pointer text-sm capitalize">{p}</SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field>
+                  <FieldLabel className="text-[11px] font-medium text-muted-foreground">Category</FieldLabel>
+                  <Select value={fields.category} onValueChange={(v) => set('category', v)}>
+                    <SelectTrigger className="cursor-pointer text-sm h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {['billing', 'technical', 'device', 'account'].map((c) => (
+                          <SelectItem key={c} value={c} className="cursor-pointer text-sm capitalize">{c}</SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </Field>
+              </div>
+
+              <Field>
+                <FieldLabel className="text-[11px] font-medium text-muted-foreground">Customer type</FieldLabel>
+                <Select value={fields.customer_type} onValueChange={(v) => set('customer_type', v)}>
+                  <SelectTrigger className="cursor-pointer text-sm h-8">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {['low', 'medium', 'high'].map((p) => (
-                        <SelectItem key={p} value={p} className="cursor-pointer text-sm capitalize">
-                          {p}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="B2B" className="cursor-pointer text-sm">B2B — Fleet / Business</SelectItem>
+                      <SelectItem value="B2C" className="cursor-pointer text-sm">B2C — Individual</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </Field>
-              <Field>
-                <FieldLabel className="text-xs">Category</FieldLabel>
-                <Select value={fields.category} onValueChange={(v) => set('category', v)}>
-                  <SelectTrigger className="cursor-pointer text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {['billing', 'technical', 'device', 'account'].map((c) => (
-                        <SelectItem key={c} value={c} className="cursor-pointer text-sm capitalize">
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </Field>
-            </div>
+            </FieldGroup>
+          </div>
 
-            <Field>
-              <FieldLabel className="text-xs">Customer type</FieldLabel>
-              <Select value={fields.customer_type} onValueChange={(v) => set('customer_type', v)}>
-                <SelectTrigger className="cursor-pointer text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="B2B" className="cursor-pointer text-sm">B2B — Fleet / Business</SelectItem>
-                    <SelectItem value="B2C" className="cursor-pointer text-sm">B2C — Individual</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </Field>
-          </FieldGroup>
-
-          <DialogFooter className="mt-4 gap-2">
+          <DialogFooter className="px-5 py-3 border-t border-border/60 flex items-center gap-2">
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="cursor-pointer text-xs"
+              className="cursor-pointer text-xs h-7 px-3 text-muted-foreground"
               onClick={() => onOpenChange(false)}
             >
               Cancel
@@ -130,7 +128,7 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
             <Button
               type="submit"
               size="sm"
-              className="cursor-pointer text-xs"
+              className="cursor-pointer text-xs h-7 px-3"
               disabled={!fields.title.trim()}
             >
               Create ticket
