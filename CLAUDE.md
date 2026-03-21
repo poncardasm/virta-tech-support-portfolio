@@ -1,14 +1,19 @@
 ## Directory layout
 
 ```
-virta-tech-support-portfolio/
-  project-docs/          ← LOCAL ONLY — gitignored. CV, job notes, superpowers plans.
-  01-knowledge-base/     ← committed portfolio project
-    docs/                ← committed (MkDocs source)
-    mkdocs.yml
-  02-sql-analysis/       ← committed portfolio project (future)
-  03-ticket-tracker/     ← committed portfolio project (future)
-  ...
+virta-support-portfolio/
+  ├── project-docs/          ← LOCAL ONLY — gitignored. CV, job notes, superpowers plans.
+  ├── README.md
+  ├── 01-knowledge-base/
+  │   └── README.md
+  ├── 02-sql-analysis/
+  │   └── README.md
+  ├── 03-ticket-tracker/
+  │   └── README.md
+  ├── 04-report-generator/
+  │   └── README.md
+  └── 05-ocpp-client/
+      └── README.md
 ```
 
 ## Rules
