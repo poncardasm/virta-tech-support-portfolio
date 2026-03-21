@@ -36,18 +36,19 @@
 
 ## Resolution
 
-| Cause | Action |
-|-------|--------|
-| Power loss | Ask site operator to check the circuit breaker. If a fuse is blown, a technician visit is needed. |
-| Network loss | Ask site operator to check the router/LTE modem at the site. Remote reboot of the charger may restore connectivity once network is back. |
-| Firmware hang | Issue a remote soft reset. If that fails, issue a hard reset. If the charger is still unresponsive, escalate. |
-| Hardware fault | Escalate to field operations for a technician visit. Do not ask the customer to open or touch the unit. |
+| Cause          | Action                                                                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Power loss     | Ask site operator to check the circuit breaker. If a fuse is blown, a technician visit is needed.                                        |
+| Network loss   | Ask site operator to check the router/LTE modem at the site. Remote reboot of the charger may restore connectivity once network is back. |
+| Firmware hang  | Issue a remote soft reset. If that fails, issue a hard reset. If the charger is still unresponsive, escalate.                            |
+| Hardware fault | Escalate to field operations for a technician visit. Do not ask the customer to open or touch the unit.                                  |
 
 ---
 
 ## Escalation criteria
 
 Escalate to **field operations** if:
+
 - Remote reset has been attempted and the charger remains unresponsive
 - The last heartbeat was more than 24 hours ago with no known site outage
 - Multiple units at the same site are down (possible electrical or network infrastructure issue)
