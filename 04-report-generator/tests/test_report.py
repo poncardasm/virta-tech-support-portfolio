@@ -26,6 +26,12 @@ ESCALATED_TICKET = {
     "created_at": "2026-03-15T10:00:00", "resolved_at": "",
 }
 
+RESOLVED_NO_DATE = {
+    "ticket_id": "5", "title": "Resolved no date", "status": "resolved",
+    "priority": "low", "category": "technical", "customer_type": "B2C",
+    "created_at": "2026-03-18T12:00:00", "resolved_at": "",
+}
+
 
 def test_total_count():
     metrics = compute_metrics([RESOLVED_FAST, OPEN_TICKET], sla_hours=24)
@@ -73,7 +79,7 @@ def test_empty_input():
 
 
 def test_missing_resolved_at_excluded():
-    metrics = compute_metrics([OPEN_TICKET], sla_hours=24)
+    metrics = compute_metrics([RESOLVED_NO_DATE], sla_hours=24)
     assert metrics["avg_resolution_hours"] is None
 
 
@@ -84,9 +90,9 @@ def test_category_counter():
 
 
 def test_derive_week_label():
-    tickets = [RESOLVED_FAST, RESOLVED_SLOW]
+    tickets = [RESOLVED_FAST, RESOLVED_NO_DATE]
     label = derive_week_label(tickets)
-    assert label == "2026-03-15 to 2026-03-15"
+    assert label == "2026-03-15 to 2026-03-18"
 
 
 def test_render_report_contains_header():
