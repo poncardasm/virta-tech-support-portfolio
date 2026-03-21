@@ -1,0 +1,10 @@
+# misc
+docs/
+
+# MkDocs build output
+site/
+
+# Python virtualenv
+.venv/
+venv/
+__pycache__/

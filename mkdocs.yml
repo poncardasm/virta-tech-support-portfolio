@@ -23,7 +23,9 @@ nav:
       - Slow Charging Speed: 01-knowledge-base/slow-charging-speed.md
   - Changelog: 01-knowledge-base/changelog.md
 
-docs_dir: docs
+docs_dir: .
 
 exclude_docs: |
-  superpowers/**
+  docs/**
+  site/**
+  .venv/**
