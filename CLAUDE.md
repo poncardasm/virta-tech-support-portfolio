@@ -23,3 +23,4 @@ virta-support-portfolio/
 - Portfolio project files (articles, code, configs) go in their numbered subdirectory at the repo root and ARE committed
 - Subdirectory `docs/` folders inside projects (e.g. `01-knowledge-base/docs/`) are MkDocs source dirs and ARE committed — do not confuse with `project-docs/`
 - Never modify `.gitignore` to unblock a commit — ask first
+- Default branch is `main`
