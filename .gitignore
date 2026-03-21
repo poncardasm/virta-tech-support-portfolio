@@ -1,5 +1,5 @@
-# misc
-docs/
+# local-only: CV, job notes, planning docs
+/docs/
 
 # MkDocs build output
 site/

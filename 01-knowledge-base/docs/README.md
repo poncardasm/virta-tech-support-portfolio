@@ -11,6 +11,11 @@ A structured troubleshooting wiki written for a fictional EV charging support te
 | [charger-shows-available-but-offline.md](./charger-shows-available-but-offline.md) | Connectivity            |
 | [rfid-card-not-recognized.md](./rfid-card-not-recognized.md)                       | Authentication          |
 | [session-ends-unexpectedly.md](./session-ends-unexpectedly.md)                     | Session handling        |
+| [slow-charging-speed.md](./slow-charging-speed.md)                                 | Session handling / Hardware |
+
+## Changelog
+
+See [changelog.md](./changelog.md) for a history of additions and updates.
 
 ## Article format
 
