@@ -29,7 +29,8 @@ function FilterChip({ label, value, options, onChange }) {
             : 'bg-transparent border-border text-muted-foreground hover:border-border/80 hover:text-foreground',
         )}
       >
-        <SelectValue placeholder={label} />
+        <span className="text-muted-foreground/70">{label}:</span>
+        <SelectValue placeholder="All" />
       </SelectTrigger>
       <SelectContent className="text-xs">
         <SelectGroup>

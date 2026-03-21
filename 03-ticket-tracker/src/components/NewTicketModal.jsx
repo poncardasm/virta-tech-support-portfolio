@@ -42,7 +42,7 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[420px] gap-0 p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-[420px] gap-0 p-0 overflow-hidden flex flex-col max-h-[90vh]">
         <DialogHeader className="px-5 pt-5 pb-4 border-b border-border/60">
           <DialogTitle className="text-[14px] font-semibold">New ticket</DialogTitle>
           <DialogDescription className="text-[12px] text-muted-foreground mt-0.5">
@@ -50,8 +50,8 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="px-5 py-4">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+          <div className="px-5 py-4 overflow-y-auto flex-1">
             <FieldGroup>
               <Field>
                 <FieldLabel className="text-[11px] font-medium text-muted-foreground">Title</FieldLabel>
@@ -115,7 +115,7 @@ export default function NewTicketModal({ open, onOpenChange, onCreate }) {
             </FieldGroup>
           </div>
 
-          <DialogFooter className="px-5 py-3 border-t border-border/60 flex items-center gap-2">
+          <DialogFooter className="mx-0 mb-0 px-5 py-3 border-t border-border/60 flex items-center gap-2 shrink-0">
             <Button
               type="button"
               variant="ghost"

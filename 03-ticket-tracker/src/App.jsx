@@ -3,6 +3,7 @@ import { getTickets, createTicket, updateTicket, addNote } from './storage';
 import TicketList from './components/TicketList';
 import TicketDetail from './components/TicketDetail';
 import NewTicketModal from './components/NewTicketModal';
+import Dashboard from './components/Dashboard';
 import { Button } from './components/ui/button';
 import { PlusIcon } from 'lucide-react';
 
@@ -93,26 +94,11 @@ export default function App() {
             onAddNote={handleAddNote}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-3 select-none">
-            <div className="size-10 rounded-xl border border-border/60 flex items-center justify-center text-muted-foreground/30">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div className="text-center">
-              <p className="text-sm font-medium text-foreground/40">No ticket selected</p>
-              <p className="text-xs text-muted-foreground/40 mt-0.5">
-                Pick one from the queue or{' '}
-                <button
-                  onClick={() => setShowNewModal(true)}
-                  className="text-primary/70 hover:text-primary underline underline-offset-2 transition-colors cursor-pointer"
-                >
-                  create a new one
-                </button>
-              </p>
-            </div>
-          </div>
+          <Dashboard
+            tickets={tickets}
+            onNewTicket={() => setShowNewModal(true)}
+            onSelectTicket={setSelectedId}
+          />
         )}
       </main>
 

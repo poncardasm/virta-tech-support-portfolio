@@ -34,13 +34,14 @@ Support teams at EV charging companies handle a mix of billing disputes, technic
 - SLA timers or dashboards
 - Multi-agent assignment
 - Mobile-optimised layout
+- Backend server or database (all data persisted client-side)
 
 ---
 
 ## Users
 
-| User | Description |
-|------|-------------|
+| User               | Description                                                               |
+| ------------------ | ------------------------------------------------------------------------- |
 | Support Specialist | Creates tickets, updates status, adds notes and replies, escalates issues |
 
 Single user type — no login, no roles. This is a portfolio demo, not a production multi-tenant system.
@@ -51,17 +52,18 @@ Single user type — no login, no roles. This is a portfolio demo, not a product
 
 ### 1. Ticket Management
 
-| Field | Type | Values |
-|-------|------|--------|
-| Title | Text | Free text, required |
-| Status | Enum | `open` · `in-progress` · `escalated` · `resolved` |
-| Priority | Enum | `low` · `medium` · `high` |
-| Category | Enum | `billing` · `technical` · `device` · `account` |
-| Customer Type | Enum | `B2B` · `B2C` |
-| Created At | Timestamp | Auto-set on creation |
-| Updated At | Timestamp | Auto-updated on every change |
+| Field         | Type      | Values                                            |
+| ------------- | --------- | ------------------------------------------------- |
+| Title         | Text      | Free text, required                               |
+| Status        | Enum      | `open` · `in-progress` · `escalated` · `resolved` |
+| Priority      | Enum      | `low` · `medium` · `high`                         |
+| Category      | Enum      | `billing` · `technical` · `device` · `account`    |
+| Customer Type | Enum      | `B2B` · `B2C`                                     |
+| Created At    | Timestamp | Auto-set on creation                              |
+| Updated At    | Timestamp | Auto-updated on every change                      |
 
 **Ticket lifecycle:**
+
 ```
 open → in-progress → escalated → resolved
          ↑_____________________________|  (can re-open resolved)
@@ -70,55 +72,85 @@ open → in-progress → escalated → resolved
 ### 2. Escalation
 
 When a ticket is set to `escalated`:
+
 - A **reason field** is required and stored
-- An **escalated_at timestamp** is recorded — only on the first transition to `escalated`, not reset by subsequent patches
+- An **escalated_at timestamp** is recorded — only on the first transition to `escalated`, not reset by subsequent updates
 
 ### 3. Filtering
 
 The ticket list can be filtered by any combination of:
+
 - Status
 - Priority
 - Category
 - Customer type (B2B / B2C)
 
-Filters are applied client-side via API query parameters. Multiple filters can be active simultaneously.
+Filters are applied client-side in React state. Multiple filters can be active simultaneously.
 
 ### 4. Notes and Replies
 
 Each ticket can have an ordered list of notes. Two types:
 
-| Type | Visibility | Use case |
-|------|-----------|----------|
-| `internal` | Team only | Diagnosis notes, L2 context, investigation findings |
-| `reply` | Customer-facing | Responses sent to the customer |
+| Type       | Visibility      | Use case                                            |
+| ---------- | --------------- | --------------------------------------------------- |
+| `internal` | Team only       | Diagnosis notes, L2 context, investigation findings |
+| `reply`    | Customer-facing | Responses sent to the customer                      |
 
-Notes are append-only, ordered by creation time, and displayed with visual distinction (colour-coded).
+Notes are append-only, ordered by creation time, and displayed with visual distinction (colour-coded via Shadcn Badge + border styling).
 
 ---
 
 ## Technical Requirements
 
-| Concern | Decision |
-|---------|----------|
-| Backend | Node.js + Express |
-| Database | SQLite via `better-sqlite3` |
-| Frontend | Plain HTML / CSS / Vanilla JS — no build step |
-| API style | REST JSON |
-| Tests | Jest + supertest (API layer only) |
-| Node version | 18+ |
-| Port | 3000 |
+| Concern      | Decision                                                      |
+| ------------ | ------------------------------------------------------------- |
+| Frontend     | React 19 + Vite                                               |
+| UI Components| Shadcn UI (Radix primitives + Tailwind CSS v4)                |
+| Data Storage | localStorage (client-side only, no backend)                   |
+| State        | React component state + a thin `storage.js` service layer     |
+| Build        | `npm run build` → `dist/` (static files)                      |
+| Node version | 18+                                                           |
+| Dev port     | 5173 (Vite default)                                           |
+| Future deploy| Vercel (planned — `dist/` is drop-in compatible)              |
 
 ---
 
-## API Surface
+## Data Storage
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/tickets` | List tickets; supports `?status=`, `?priority=`, `?category=`, `?customer_type=` |
-| POST | `/api/tickets` | Create a ticket |
-| GET | `/api/tickets/:id` | Get one ticket with all its notes |
-| PATCH | `/api/tickets/:id` | Update status, priority, or escalation fields |
-| POST | `/api/tickets/:id/notes` | Add an internal note or customer reply |
+All data is persisted in localStorage under two keys:
+
+- `tt_tickets` — JSON array of ticket objects
+- `tt_notes` — JSON array of note objects (linked by `ticket_id`)
+
+All reads and writes go through `src/storage.js` — no component accesses localStorage directly.
+
+---
+
+## File Map
+
+```
+03-ticket-tracker/
+  package.json
+  vite.config.js
+  index.html
+  tailwind.config.js
+  postcss.config.js
+  components.json           ← Shadcn config
+  src/
+    main.jsx                ← React entry point
+    App.jsx                 ← layout shell, selected ticket state
+    storage.js              ← ONLY file that reads/writes localStorage
+    lib/
+      utils.js              ← cn() helper (Shadcn standard)
+    components/
+      ui/                   ← Shadcn auto-generated components
+      TicketList.jsx        ← left panel: filter bar + ticket cards
+      TicketDetail.jsx      ← right panel: fields, status, notes thread
+      NewTicketModal.jsx    ← Dialog form for creating a ticket
+      FilterBar.jsx         ← status/priority/category/customer type selects
+      NoteItem.jsx          ← single note row, colour-coded by type
+  README.md
+```
 
 ---
 
@@ -153,7 +185,7 @@ Two-column single-page layout:
 
 ## Acceptance Criteria
 
-- [ ] A new ticket can be created with all required fields via a modal form
+- [ ] A new ticket can be created with all required fields via a modal form (Shadcn Dialog)
 - [ ] The ticket list updates immediately after creation
 - [ ] Tickets can be filtered by status, priority, category, and customer type — in any combination
 - [ ] Clicking a ticket shows its full detail in the right panel
@@ -162,8 +194,8 @@ Two-column single-page layout:
 - [ ] `escalated_at` is only set once — on the first transition to `escalated`
 - [ ] An internal note and a customer reply can both be added to a ticket
 - [ ] Internal notes display with a yellow left border; customer replies with green
-- [ ] All API routes have passing Jest tests
-- [ ] `npm start` boots the server; `npm test` runs all tests
+- [ ] All data persists across page refreshes (localStorage)
+- [ ] `npm run dev` starts the Vite dev server; `npm run build` produces a deployable `dist/`
 
 ---
 
@@ -172,10 +204,11 @@ Two-column single-page layout:
 ```bash
 cd 03-ticket-tracker
 npm install
-npm start
-# → http://localhost:3000
+npm run dev
+# → http://localhost:5173
 ```
 
 ```bash
-npm test
+npm run build
+# → dist/ folder ready for Vercel or any static host
 ```
