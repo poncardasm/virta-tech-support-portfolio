@@ -1,0 +1,31 @@
+ticket_id,title,status,priority,category,customer_type,created_at,resolved_at
+1,Charger not starting,resolved,high,technical,B2C,2026-03-15T08:00:00,2026-03-15T09:30:00
+2,Payment failed at station 12,resolved,high,billing,B2C,2026-03-15T09:00:00,2026-03-16T10:00:00
+3,Fleet invoice discrepancy,resolved,medium,billing,B2B,2026-03-15T10:00:00,2026-03-17T11:00:00
+4,Station offline - site A,escalated,high,technical,B2B,2026-03-15T11:00:00,
+5,App login issue,resolved,low,account,B2C,2026-03-15T12:00:00,2026-03-15T14:00:00
+6,Charging session stuck,resolved,high,technical,B2C,2026-03-15T13:00:00,2026-03-15T15:00:00
+7,Card reader not responding,open,medium,device,B2C,2026-03-15T14:00:00,
+8,RFID card not recognised,resolved,medium,account,B2B,2026-03-15T15:00:00,2026-03-15T18:00:00
+9,Double charge on session,resolved,high,billing,B2C,2026-03-15T16:00:00,2026-03-16T08:00:00
+10,Cable lock stuck,resolved,low,device,B2C,2026-03-15T17:00:00,2026-03-15T20:00:00
+11,Fleet API integration error,in-progress,high,technical,B2B,2026-03-16T08:00:00,
+12,Session did not stop,resolved,medium,technical,B2C,2026-03-16T09:00:00,2026-03-16T11:30:00
+13,Billing address update,resolved,low,account,B2C,2026-03-16T10:00:00,2026-03-16T11:00:00
+14,Station power fault,escalated,high,device,B2B,2026-03-16T11:00:00,
+15,OCPP connection dropping,resolved,high,technical,B2B,2026-03-16T12:00:00,2026-03-18T14:00:00
+16,Refund not received,resolved,medium,billing,B2C,2026-03-16T13:00:00,2026-03-17T09:00:00
+17,Wrong kWh billed,resolved,high,billing,B2B,2026-03-16T14:00:00,2026-03-16T16:00:00
+18,Screen blank on charger,open,low,device,B2C,2026-03-16T15:00:00,
+19,Account locked out,resolved,medium,account,B2C,2026-03-16T16:00:00,2026-03-16T17:30:00
+20,Session not starting,resolved,high,technical,B2C,2026-03-17T08:00:00,2026-03-17T10:00:00
+21,Fleet roaming issue,in-progress,medium,technical,B2B,2026-03-17T09:00:00,
+22,Payment timeout,resolved,medium,billing,B2C,2026-03-17T10:00:00,2026-03-17T12:00:00
+23,Charger unreachable,resolved,high,technical,B2B,2026-03-17T11:00:00,2026-03-19T09:00:00
+24,RFID provisioning delay,open,low,account,B2B,2026-03-17T12:00:00,
+25,Connector stuck in locked,resolved,medium,device,B2C,2026-03-17T13:00:00,2026-03-17T15:00:00
+26,Invoice not generated,resolved,high,billing,B2B,2026-03-18T08:00:00,2026-03-18T10:00:00
+27,App shows wrong balance,open,low,billing,B2C,2026-03-18T09:00:00,
+28,Station firmware update failed,escalated,high,technical,B2B,2026-03-18T10:00:00,
+29,Charge point ID conflict,resolved,medium,technical,B2B,2026-03-18T11:00:00,2026-03-18T14:00:00
+30,User cannot add payment method,resolved,low,account,B2C,2026-03-18T12:00:00,2026-03-18T13:30:00
