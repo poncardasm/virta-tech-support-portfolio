@@ -1,6 +1,9 @@
 # local-only: CV, job notes, planning docs
 /project-docs/
 
+# git worktrees
+.worktrees/
+
 # MkDocs build output
 site/
 
