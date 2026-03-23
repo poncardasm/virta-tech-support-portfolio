@@ -102,16 +102,16 @@ Notes are append-only, ordered by creation time, and displayed with visual disti
 
 ## Technical Requirements
 
-| Concern      | Decision                                                      |
-| ------------ | ------------------------------------------------------------- |
-| Frontend     | React 19 + Vite                                               |
-| UI Components| Shadcn UI (Radix primitives + Tailwind CSS v4)                |
-| Data Storage | localStorage (client-side only, no backend)                   |
-| State        | React component state + a thin `storage.js` service layer     |
-| Build        | `npm run build` → `dist/` (static files)                      |
-| Node version | 18+                                                           |
-| Dev port     | 5173 (Vite default)                                           |
-| Future deploy| Vercel (planned — `dist/` is drop-in compatible)              |
+| Concern       | Decision                                                  |
+| ------------- | --------------------------------------------------------- |
+| Frontend      | React 19 + Vite                                           |
+| UI Components | Shadcn UI (Radix primitives + Tailwind CSS v4)            |
+| Data Storage  | localStorage (client-side only, no backend)               |
+| State         | React component state + a thin `storage.js` service layer |
+| Build         | `npm run build` → `dist/` (static files)                  |
+| Node version  | 18+                                                       |
+| Dev port      | 5173 (Vite default)                                       |
+| Future deploy | Vercel (planned — `dist/` is drop-in compatible)          |
 
 ---
 

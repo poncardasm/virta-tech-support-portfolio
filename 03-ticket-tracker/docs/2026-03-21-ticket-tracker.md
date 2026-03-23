@@ -179,8 +179,8 @@ git commit -m "feat(tracker): bootstrap Vite + React 19 + Shadcn + Tailwind v4 p
 - [ ] **Step 1: Write src/index.css**
 
 ```css
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 

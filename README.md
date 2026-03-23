@@ -2,6 +2,8 @@
 
 Hi! I'm [Mchael Poncardas](https://poncardas.com/), and I created this portfolio for my application to the Technical Support Specialist role at Virta. It shows how I approach technical support work in practice and covers concrete parts of the role, including support workflows, SQL analysis, documentation, and EV charging domain knowledge.
 
+![Screenshot of ticket tracker app](./03-ticket-tracker/public/assets/ss-03-ticket-tracker.png)
+
 These are practical working examples that show how I approach real support problems.
 
 ## Projects
