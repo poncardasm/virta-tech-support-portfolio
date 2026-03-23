@@ -1,8 +1,8 @@
-# Virta Support Portfolio
+# Virta Tech Support Specialist Portfolio
 
-This is a portfolio of projects I built to demonstrate relevant skills for my application for the **Technical Support Specialist** role at Virta (Liikennevirta Oy). Each project targets a concrete area of the work — support workflows, SQL analysis, documentation, and EV charging domain knowledge.
+I'm Mchael Poncardas, and I created this portfolio for my application to the Technical Support Specialist role at Virta. It shows how I approach technical support work in practice and covers concrete parts of the role, including support workflows, SQL analysis, documentation, and EV charging domain knowledge.
 
-These are practical, working examples — not concepts. They show how I approach real support problems.
+These are practical working examples that show how I approach real support problems.
 
 ---
 
