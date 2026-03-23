@@ -4,8 +4,6 @@ Hi! I'm [Mchael Poncardas](https://poncardas.com/), and I created this portfolio
 
 These are practical working examples that show how I approach real support problems.
 
----
-
 ## Projects
 
 | #                            | Project                              | What it demonstrates                                                         |
@@ -16,8 +14,6 @@ These are practical working examples that show how I approach real support probl
 | [04](./04-report-generator/) | **Weekly Support Report Generator**  | Process automation, pattern identification, cross-team communication         |
 | [05](./05-ocpp-client/)      | **OCPP Charger Simulator**           | EV charging protocol understanding, technical depth in the product domain    |
 
----
-
 ## 01 — Troubleshooting Knowledge Base
 
 A structured set of troubleshooting articles written for a fictional EV charging support team. Covers the most common customer issue categories: connectivity, payment, session handling, and hardware.
@@ -25,8 +21,6 @@ A structured set of troubleshooting articles written for a fictional EV charging
 **Demonstrates:** technical documentation, knowledge base maintenance, escalation criteria — the kind of content that lives in Confluence.
 
 → [View project](./01-knowledge-base/)
-
----
 
 ## 02 — EV Charging Session SQL Analysis
 
@@ -41,8 +35,6 @@ A mock PostgreSQL database of charging sessions, users, stations, and payment ev
 
 → [View project](./02-sql-analysis/)
 
----
-
 ## 03 — Support Ticket Tracker
 
 A lightweight web app modelling the core of a Zendesk-style support queue: create and update tickets, filter by status and priority, add internal escalation notes, and distinguish B2B from B2C issues.
@@ -50,8 +42,6 @@ A lightweight web app modelling the core of a Zendesk-style support queue: creat
 **Demonstrates:** CRM tool logic, ticket lifecycle management, and the separation between internal and customer-facing communication.
 
 → [View project](./03-ticket-tracker/)
-
----
 
 ## 04 — Weekly Support Report Generator
 
@@ -61,8 +51,6 @@ A Python CLI script that takes a CSV of raw ticket data and produces a formatted
 
 → [View project](./04-report-generator/)
 
----
-
 ## 05 — OCPP Charger Simulator
 
 A minimal OCPP 1.6 WebSocket client that simulates a charging station communicating with a backend. Sends and logs `BootNotification`, `Heartbeat`, `StartTransaction`, `StopTransaction`, and `StatusNotification` messages.
@@ -70,8 +58,6 @@ A minimal OCPP 1.6 WebSocket client that simulates a charging station communicat
 **Demonstrates:** understanding of the protocol Virta's hardware runs on, and genuine interest in the product domain beyond the support queue.
 
 → [View project](./05-ocpp-client/)
-
----
 
 ## About Me
 
